@@ -4,10 +4,12 @@ Sophie Koonin skooni01
 
 public class FractionCalculator {
 	private Fraction value;
+	private Fraction reset;
 	private int operator;
 
 	public FractionCalculator(){
 	value = new Fraction(0,1);
+	reset = new Fraction(0,1);
 	operator = 0;
 
 	}
@@ -24,37 +26,62 @@ public class FractionCalculator {
 		String[] splitInput = inputString.split("\\s");
 		value = makeFraction(splitInput[0]);
 		for (int i = 1; i < splitInput.length; i+=2) {
+
 			if (splitInput[i].equals("+")) {
-				operator = 1;
-			} else if (splitInput[i].equals("-")) {
-				operator = 2;
-			} else if (splitInput[i].equals("*")) {
-				operator = 3;
-			} else if (splitInput[i].equals("/")) {
-				operator = 4;
-			} else if (splitInput[i].equals("abs") || splitInput[i].equals("a")  || splitInput[i].equals("A")) {
 				if (operator != 0) {
-					//error and reset
+					resetCalc(value);
 				} else {
-					value.absValue();
+				operator = 1; 
 				}
-			}
+			} else if (splitInput[i].equals("-")) {
+				if (operator != 0) {
+					resetCalc(value);
+				} else {
+				operator = 2;
+				}
+			} else if (splitInput[i].equals("*")) {
+				if (operator != 0) {
+					resetCalc(value);
+				} else {
+				operator = 3;
+				}
+			} else if (splitInput[i].equals("/")) {
+				if (operator != 0) {
+					resetCalc(value);
+				} else {
+				operator = 4; 
+				}
+			} else if (splitInput[i].equals("abs") || splitInput[i].equals("a")  || splitInput[i].equals("A")) {
+				value.absValue();
+				}	
+			} else if (splitInput[i].equals("neg") || splitInput[i].equals("n")  || splitInput[i].equals("N")) {
+					value.negate();
+				
+			} else if (splitInput[i].equals("clear") || splitInput[i].equals("c")  || splitInput[i].equals("C")) {
+					value = reset; 
+			}  
+
+
 			Fraction nextFraction = makeFraction(splitInput[i+1]);
 			switch (operator) {
 				case 1:
 				value = value.add(nextFraction);
+				operator = 0;
 				break; 
 
 				case 2:
 				value = value.subtract(nextFraction);
+				operator = 0;
 				break;//System.out.println(value);
 				
 				case 3:
 				value = value.multiply(nextFraction);
+				operator = 0;
 				break;
 
 				case 4:
 				value = value.divide(nextFraction);
+				operator = 0;
 				break;
 			
 				default:
@@ -63,8 +90,13 @@ public class FractionCalculator {
 			}
 			//assign result to value
 		}
+		System.out.println(value);
 	}
 
+	public void resetCalc(Fraction fraction) {
+		System.out.println("There is already an operator in the memory! Calculator will reset.");
+		fraction = reset;
+	}
 
 	public Fraction makeFraction(String s){
 		//parse the string "x/y" as a fraction (x,y)
