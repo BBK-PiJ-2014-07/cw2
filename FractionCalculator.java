@@ -39,24 +39,26 @@ public class FractionCalculator {
 					value.absValue();
 				}
 			}
-			System.out.println(operator);
 			Fraction nextFraction = makeFraction(splitInput[i+1]);
-			//System.out.println(nextFraction);
 			switch (operator) {
 				case 1:
 				value = value.add(nextFraction);
-				System.out.println(value);
-							
+				break; 
+
 				case 2:
 				value = value.subtract(nextFraction);
+				break;//System.out.println(value);
 				
 				case 3:
 				value = value.multiply(nextFraction);
-			
+				break;
+
 				case 4:
 				value = value.divide(nextFraction);
+				break;
 			
 				default:
+				break;
 				//System.out.println(value);
 			}
 			//assign result to value

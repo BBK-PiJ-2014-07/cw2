@@ -12,8 +12,8 @@ public class FractionCalculatorTest {
 		calc.evaluate(f, str);
 
 		//test makeFraction()
-		String make = "3/4";
-		Fraction made = calc.makeFraction(make);
-		System.out.println(made);
+		/*String make = "3/4";
+		Fraction madeFraction = calc.makeFraction(make);
+		System.out.println(madeFraction);*/
 	}
 }
