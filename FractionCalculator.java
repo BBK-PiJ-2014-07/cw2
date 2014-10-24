@@ -28,7 +28,7 @@ public class FractionCalculator {
 		String[] splitInput = inputString.split("\\s");
 
 		for (int i = 0; i < splitInput.length; i++) {
-			if (i == 0) {
+			if (i == 0 && value.equals(reset)) {
 				if (Character.isDigit(splitInput[i].charAt(0)) || splitInput[i].charAt(0) == '-') {
 				//if this is the first in the array, and is a fraction, it must be assigned to value
 				value = makeFraction(splitInput[0]);
@@ -58,6 +58,7 @@ public class FractionCalculator {
 				} else {
 				operator = 4; 
 				}
+
 			} else if (splitInput[i].equals("abs") || splitInput[i].equals("a")  || splitInput[i].equals("A")) {
 				value = value.absValue();
 				
@@ -69,44 +70,53 @@ public class FractionCalculator {
 			
 			} else if (splitInput[i].equals("quit") || splitInput[i].equals("q")  || splitInput[i].equals("Q")) {
 				System.exit(0);
+				break;
 
 			} else if (i > 0 && Character.isDigit(splitInput[i].charAt(0))) {
-				//if it contains a digit it must be a fraction. assign to nextFraction
-				nextFraction = makeFraction(splitInput[i]);
+				//if it contains a digit it must be a fraction.
+					if (operator == 0) {
+						//if there is no stored operator, assign this fraction to value
+						value = makeFraction(splitInput[i]);
 
-				//then do the operation
-				switch (operator) {
-				case 1:
-				value = value.add(nextFraction);
-				operator = 0;
-				break; 
+					} else {
+						//if there is a stored operator, this is nextFraction
+						nextFraction = makeFraction(splitInput[i]);
 
-				case 2:
-				value = value.subtract(nextFraction);
-				operator = 0;
-				break;
-				
-				case 3:
-				value = value.multiply(nextFraction);
-				operator = 0;
-				break;
+						//then do the operation
+						switch (operator) {
+						case 1:
+						value = value.add(nextFraction);
+						operator = 0;
+						break; 
 
-				case 4:
-				value = value.divide(nextFraction);
-				operator = 0;
-				break;
-			
-				default:
-				break;
-				}
-			}  
+						case 2:
+						value = value.subtract(nextFraction);
+						operator = 0;
+						break;
+						
+						case 3:
+						value = value.multiply(nextFraction);
+						operator = 0;
+						break;
+
+						case 4:
+						value = value.divide(nextFraction);
+						operator = 0;
+						break;
+					
+						default:
+						break;
+						}
+					}
+			}  	
 
 		}
 		
 		//print final value		
-		System.out.println(value);
-
-		
+		System.out.println("Answer: " + value);
+		//allow for next input
+		String nextInput = System.console().readLine();
+		evaluate(value, nextInput);
 		
 	}
 
