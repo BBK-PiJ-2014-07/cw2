@@ -30,7 +30,7 @@ public class FractionTest {
 	Fraction r = new Fraction(4,5);
 	if (!p.equals(q.divide(r))) System.out.println("Divide failed");
 
-	// test aesvalus
+	// test absValue
 	Fraction neg = new Fraction(-3,5);
 	System.out.println(neg.absValue().toString());
 	Fraction neg1 = new Fraction(-2,3);

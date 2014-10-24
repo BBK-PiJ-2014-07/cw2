@@ -5,11 +5,13 @@ Sophie Koonin skooni01
 public class FractionCalculator {
 	private Fraction value;
 	private Fraction reset;
+	private Fraction nextFraction;
 	private int operator;
 
 	public FractionCalculator(){
 	value = new Fraction(0,1);
 	reset = new Fraction(0,1);
+	nextFraction = new Fraction(0,1);
 	operator = 0;
 
 	}
@@ -24,10 +26,13 @@ public class FractionCalculator {
 	public void evaluate(Fraction fraction, String inputString){
 		//split up the input and iterate over array to find fractions
 		String[] splitInput = inputString.split("\\s");
-		value = makeFraction(splitInput[0]);
-		Fraction nextFraction = new Fraction (0,1);
-		for (int i = 1; i < splitInput.length; i++) {
-			if (splitInput[i].equals("+")) {
+
+		for (int i = 0; i < splitInput.length; i++) {
+			if (i == 0 && Character.isDigit(splitInput[i].charAt(0))) {
+				//if this is the first in the array, and is a fraction, it must be assigned to value
+				value = makeFraction(splitInput[0]);
+
+			} else if (splitInput[i].equals("+")) {
 				if (operator != 0) {
 					resetCalc(value);
 				} else {
@@ -59,12 +64,15 @@ public class FractionCalculator {
 				
 			} else if (splitInput[i].equals("clear") || splitInput[i].equals("c")  || splitInput[i].equals("C")) {
 				value = reset; 
-			//else if quit 
+			
+			} else if (splitInput[i].equals("quit") || splitInput[i].equals("q")  || splitInput[i].equals("Q")) {
+				System.exit(0);
 
-			} else if (Character.isDigit(splitInput[i].charAt(0))) {
-				//if it contains a digit it must be a fraction
+			} else if (i > 0 && Character.isDigit(splitInput[i].charAt(0))) {
+				//if it contains a digit it must be a fraction. assign to nextFraction
 				nextFraction = makeFraction(splitInput[i]);
 
+				//then do the operation
 				switch (operator) {
 				case 1:
 				value = value.add(nextFraction);
@@ -74,7 +82,7 @@ public class FractionCalculator {
 				case 2:
 				value = value.subtract(nextFraction);
 				operator = 0;
-				break;//System.out.println(value);
+				break;
 				
 				case 3:
 				value = value.multiply(nextFraction);
@@ -88,16 +96,14 @@ public class FractionCalculator {
 			
 				default:
 				break;
-				//System.out.println(value);
 				}
 			}  
-			System.out.println("Value of nextFraction is " + nextFraction);
-
-			
-			
-		
-		}
 		System.out.println(value);
+
+		}
+		
+		
+		
 	}
 
 	public void resetCalc(Fraction fraction) {
