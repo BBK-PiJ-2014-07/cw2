@@ -23,50 +23,50 @@ public class FractionCalculator {
 	}
 
 
-	public void evaluate(Fraction fraction, String inputString){
+	public Fraction evaluate(Fraction fraction, String inputString){
 		//split up the input and iterate over array to find fractions
 		String[] splitInput = inputString.split("\\s");
 
 		for (int i = 0; i < splitInput.length; i++) {
-			if (i == 0 && value.equals(reset)) {
+			if (i == 0 && fraction.equals(reset)) {
 				if (Character.isDigit(splitInput[i].charAt(0)) || splitInput[i].charAt(0) == '-') {
 				//if this is the first in the array, and is a fraction, it must be assigned to value
-				value = makeFraction(splitInput[0]);
+				fraction = makeFraction(splitInput[0]);
 				}
 
 			} else if (splitInput[i].equals("+")) {
 				if (operator != 0) {
-					resetCalc(value);
+					resetCalc(fraction);
 				} else {
 				operator = 1; 
 				}
 			} else if (splitInput[i].equals("-")) {
 				if (operator != 0) {
-					resetCalc(value);
+					resetCalc(fraction);
 				} else {
 				operator = 2;
 				}
 			} else if (splitInput[i].equals("*")) {
 				if (operator != 0) {
-					resetCalc(value);
+					resetCalc(fraction);
 				} else {
 				operator = 3;
 				}
 			} else if (splitInput[i].equals("/")) {
 				if (operator != 0) {
-					resetCalc(value);
+					resetCalc(fraction);
 				} else {
 				operator = 4; 
 				}
 
 			} else if (splitInput[i].equals("abs") || splitInput[i].equals("a")  || splitInput[i].equals("A")) {
-				value = value.absValue();
+				fraction = fraction.absValue();
 				
 			} else if (splitInput[i].equals("neg") || splitInput[i].equals("n")  || splitInput[i].equals("N")) {
-				value = value.negate();
+				fraction = fraction.negate();
 				
 			} else if (splitInput[i].equals("clear") || splitInput[i].equals("c")  || splitInput[i].equals("C")) {
-				value = reset; 
+				resetCalc(fraction);
 			
 			} else if (splitInput[i].equals("quit") || splitInput[i].equals("q")  || splitInput[i].equals("Q")) {
 				System.exit(0);
@@ -75,8 +75,8 @@ public class FractionCalculator {
 			} else if (i > 0 && Character.isDigit(splitInput[i].charAt(0))) {
 				//if it contains a digit it must be a fraction.
 					if (operator == 0) {
-						//if there is no stored operator, assign this fraction to value
-						value = makeFraction(splitInput[i]);
+						//if there is no stored operator, assign this fraction to fraction
+						fraction = makeFraction(splitInput[i]);
 
 					} else {
 						//if there is a stored operator, this is nextFraction
@@ -85,22 +85,22 @@ public class FractionCalculator {
 						//then do the operation
 						switch (operator) {
 						case 1:
-						value = value.add(nextFraction);
+						fraction = fraction.add(nextFraction);
 						operator = 0;
 						break; 
 
 						case 2:
-						value = value.subtract(nextFraction);
+						fraction = fraction.subtract(nextFraction);
 						operator = 0;
 						break;
 						
 						case 3:
-						value = value.multiply(nextFraction);
+						fraction = fraction.multiply(nextFraction);
 						operator = 0;
 						break;
 
 						case 4:
-						value = value.divide(nextFraction);
+						fraction = fraction.divide(nextFraction);
 						operator = 0;
 						break;
 					
@@ -108,73 +108,35 @@ public class FractionCalculator {
 						break;
 						}
 					}
-			}  	
+			}  else {
+				//if anything else is entered, reset and print an error message
+				resetCalc(fraction);
+				operator = 0;
+				System.out.println("Error - invalid input.");
+				break;
+			}	
 
 		}
-		
-		//print final value		
-		System.out.println("Answer: " + value);
-		//allow for next input
-		String nextInput = System.console().readLine();
-		evaluate(value, nextInput);
+		//return final value		
+		return fraction;
 		
 	}
 
 	public void resetCalc(Fraction fraction) {
-		System.out.println("There is already an operator in the memory! Calculator will reset.");
 		fraction = reset;
 	}
 
 	public Fraction makeFraction(String s){
 		//parse the string "x/y" as a fraction (x,y)
 		String[] fractionString = s.split("\\/");
-		int num = Integer.parseInt(fractionString[0]);
-		int denom = Integer.parseInt(fractionString[1]);
-		return new Fraction(num,denom);
-	}
-/*
-	public void getOperator(String s){
-		if (s == "+") {
-			operator = "add";
-		} else if (s == "-") {
-			operator = "subtract";
-		} else if (s == "*") {
-			operator = "multiply";
-		} else if (s == "/") {
-			operator = "divide";
+		if (fractionString.length == 1) {
+			int num = Integer.parseInt(fractionString[0]);
+			int denom = 1;
+			return new Fraction(num,denom);
 		} else {
-			System.out.println("Invalid operator.");
+			int num = Integer.parseInt(fractionString[0]);
+			int denom = Integer.parseInt(fractionString[1]);
+			return new Fraction(num,denom);
 		}
 	}
-
-	public Fraction evaluate(Fraction fraction, String inputString){
-		if (operator == "add") {
-			return f1.add(f2);
-		} else if (operator == "subtract") {
-			return f1.subtract(f2);
-		} else if (operator == "multiply") {
-			return f1.multiply(f2);
-		} else if (operator == "divide") {
-			return f1.divide(f2);
-		} else {
-			System.out.println("Calculation failed.");
-			return f1; 
-		}
-	}
-*/
-
-	/*public static void main(String[] args){
-	FractionCalculator calculator = new FractionCalculator();
-	calculator.run();
-	
-	}
-	
-	public void run(){
-		//get input from user
-		parseString(getInput());
-		System.out.print("Result: " + doCalculation(firstFraction, secondFraction, operator).toString());
-		//split the string according to content
-
-
-	}*/
 }
