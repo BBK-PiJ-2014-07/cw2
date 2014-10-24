@@ -25,8 +25,10 @@ public class FractionCalculator {
 		//split up the input and iterate over array to find fractions
 		String[] splitInput = inputString.split("\\s");
 		value = makeFraction(splitInput[0]);
+		/**
+		need to change the way it iterates so that it works with the example
+		*/
 		for (int i = 1; i < splitInput.length; i+=2) {
-
 			if (splitInput[i].equals("+")) {
 				if (operator != 0) {
 					resetCalc(value);
@@ -59,10 +61,13 @@ public class FractionCalculator {
 				
 			} else if (splitInput[i].equals("clear") || splitInput[i].equals("c")  || splitInput[i].equals("C")) {
 					value = reset; 
+			} else {
+				makeFraction(splitInput[i]);
 			}  
 
 
-			Fraction nextFraction = makeFraction(splitInput[i+1]);
+			Fraction nextFraction = makeFraction(splitInput[i]);
+			//for the arithmetic operations
 			switch (operator) {
 				case 1:
 				value = value.add(nextFraction);
