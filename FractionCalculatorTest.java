@@ -1,3 +1,7 @@
+/**
+Sophie Koonin skooni01
+*/
+
 public class FractionCalculatorTest {
 
 	public static void main(String[] args) {

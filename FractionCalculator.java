@@ -25,10 +25,8 @@ public class FractionCalculator {
 		//split up the input and iterate over array to find fractions
 		String[] splitInput = inputString.split("\\s");
 		value = makeFraction(splitInput[0]);
-		/**
-		need to change the way it iterates so that it works with the example
-		*/
-		for (int i = 1; i < splitInput.length; i+=2) {
+		Fraction nextFraction = new Fraction (0,1);
+		for (int i = 1; i < splitInput.length; i++) {
 			if (splitInput[i].equals("+")) {
 				if (operator != 0) {
 					resetCalc(value);
@@ -55,20 +53,19 @@ public class FractionCalculator {
 				}
 			} else if (splitInput[i].equals("abs") || splitInput[i].equals("a")  || splitInput[i].equals("A")) {
 				value.absValue();
-				}	
+				
 			} else if (splitInput[i].equals("neg") || splitInput[i].equals("n")  || splitInput[i].equals("N")) {
-					value.negate();
+				value.negate();
 				
 			} else if (splitInput[i].equals("clear") || splitInput[i].equals("c")  || splitInput[i].equals("C")) {
-					value = reset; 
-			} else {
-				makeFraction(splitInput[i]);
-			}  
+				value = reset; 
+			//else if quit 
 
+			} else if (Character.isDigit(splitInput[i].charAt(0))) {
+				//if it contains a digit it must be a fraction
+				nextFraction = makeFraction(splitInput[i]);
 
-			Fraction nextFraction = makeFraction(splitInput[i]);
-			//for the arithmetic operations
-			switch (operator) {
+				switch (operator) {
 				case 1:
 				value = value.add(nextFraction);
 				operator = 0;
@@ -92,8 +89,13 @@ public class FractionCalculator {
 				default:
 				break;
 				//System.out.println(value);
-			}
-			//assign result to value
+				}
+			}  
+			System.out.println("Value of nextFraction is " + nextFraction);
+
+			
+			
+		
 		}
 		System.out.println(value);
 	}
