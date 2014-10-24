@@ -114,7 +114,7 @@ public class Fraction {
 
     public Fraction negate() {
         int num = -1 * getNumerator();
-        int denom = getDenominator();
+        int denom = Math.abs(getDenominator());
         return new Fraction(num, denom);
     }
 

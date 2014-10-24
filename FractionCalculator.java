@@ -28,9 +28,11 @@ public class FractionCalculator {
 		String[] splitInput = inputString.split("\\s");
 
 		for (int i = 0; i < splitInput.length; i++) {
-			if (i == 0 && Character.isDigit(splitInput[i].charAt(0))) {
+			if (i == 0) {
+				if (Character.isDigit(splitInput[i].charAt(0)) || splitInput[i].charAt(0) == '-') {
 				//if this is the first in the array, and is a fraction, it must be assigned to value
 				value = makeFraction(splitInput[0]);
+				}
 
 			} else if (splitInput[i].equals("+")) {
 				if (operator != 0) {
@@ -57,10 +59,10 @@ public class FractionCalculator {
 				operator = 4; 
 				}
 			} else if (splitInput[i].equals("abs") || splitInput[i].equals("a")  || splitInput[i].equals("A")) {
-				value.absValue();
+				value = value.absValue();
 				
 			} else if (splitInput[i].equals("neg") || splitInput[i].equals("n")  || splitInput[i].equals("N")) {
-				value.negate();
+				value = value.negate();
 				
 			} else if (splitInput[i].equals("clear") || splitInput[i].equals("c")  || splitInput[i].equals("C")) {
 				value = reset; 
@@ -98,10 +100,12 @@ public class FractionCalculator {
 				break;
 				}
 			}  
-		System.out.println(value);
 
 		}
 		
+		//print final value		
+		System.out.println(value);
+
 		
 		
 	}
