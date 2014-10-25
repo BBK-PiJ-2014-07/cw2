@@ -20,15 +20,15 @@ public class FractionCalculatorTest {
 					String str = System.console().readLine();
 					f = calc.evaluate(f, str);
 					System.out.println(f);
-				/*} catch (EOFException e) {
+				} catch (NullPointerException e) {
 					System.out.println("Goodbye.");
-					System.exit(0);*/
+					System.exit(0);
 				} catch (Exception e) {
 					System.out.println("Error!");
 					calc.resetCalc(f);
-				}	
-			}
-		
+				
+				}
+		}
 	}
 	
 }
